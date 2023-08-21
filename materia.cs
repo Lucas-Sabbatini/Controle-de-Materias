@@ -8,7 +8,7 @@ public class Materia{
         this.qtAvaliacoes = qtAvaliacoes;
         int i;
         int dia,mes,ano;
-        int notaTotal;
+        float notaTotal;
         string tipoDoPrazo;
 
         for(i=0;i<qtAvaliacoes;i++){
@@ -21,7 +21,7 @@ public class Materia{
             Console.WriteLine("Qual é o tipo da avaliação? (prova/trabalho/seminário): ");
             tipoDoPrazo = Console.ReadLine();
             Console.WriteLine("Qual é o valor total da avaliação?");
-            int.TryParse(Console.ReadLine(),out notaTotal);
+            float.TryParse(Console.ReadLine(),out notaTotal);
 
             Prazo prazo = new Prazo(diaDoPrazo,tipoDoPrazo,notaTotal,-1);
 
@@ -67,8 +67,70 @@ public class Materia{
         return 0;
     }
     public int removerPrazo(Prazo prazo){
-        if(Avaliacoes.Remove(prazo)) return 0;
-        qtAvaliacoes--;
+        if(Avaliacoes.Remove(prazo)){
+            qtAvaliacoes--;
+            return 0;
+        } 
         return 1;
+    }
+    public int alterarNotaTotalPrazo(int[] notas){
+        int i,soma=0;
+
+        for(i=0;i<qtAvaliacoes;i++){
+            soma += notas[i];
+        }
+
+        if(soma!=100) return 1;
+
+        for(i=0;i<qtAvaliacoes;i++){
+            Avaliacoes[i].NotaTotal = notas[i];
+        }
+        return 0;
+    }
+
+    public int calcNotasRecomendadas(ref int tipoDesempenho){
+        int i;
+        float porcentagem=0,soma=0,somaProporcional=0,somaNotasTotais=0;
+
+        for(i=0;i<qtAvaliacoes;i++){
+            if(Avaliacoes[i].NotaObtida!=-1){   //ver quanto falta de nota e dividir proporcionalmente com relação aos valores respectivos de cada prova
+                soma+=Avaliacoes[i].NotaObtida;
+                somaNotasTotais += Avaliacoes[i].NotaTotal;
+            }
+            else{
+                somaProporcional += Avaliacoes[i].NotaTotal;
+            }
+        }
+        if(soma > 100){
+            return 1;
+        }
+        else if(soma>=60){
+            //calcular a media de desempenho e recomendar as proximas notas na mesma proporção
+            porcentagem = (float) soma/somaNotasTotais;
+            tipoDesempenho = 1;
+        }
+        else if(soma + somaProporcional <60){
+            //não existe chance de passar
+            tipoDesempenho = 2;
+            return 1;
+        }
+        else if(soma<60){
+            //ver quanto falta de nota e dividir proporcionalmente com relação aos valores respectivos de cada prova
+            soma = 100 -soma;
+            porcentagem = (float) soma/somaProporcional;
+            tipoDesempenho = 3;
+           
+        }
+
+        for(i=0;i<qtAvaliacoes;i++){
+            if(Avaliacoes[i].NotaObtida==-1){
+                Avaliacoes[i].NotaRecomendada = Avaliacoes[i].NotaTotal * porcentagem;
+            }
+            else{
+                Avaliacoes[i].NotaRecomendada = -1;
+            }
+        }
+        
+        return 0;
     }
 }
