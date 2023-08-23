@@ -62,9 +62,8 @@ public static class MetodosMenu{
                     Console.WriteLine("De qual matéria você deseja consultar ou alterar os dados?");
                 break;
                 case 2:
-                    Console.WriteLine("Qual matéria você deseja adicionar?");
-
-                break;
+                    opMateria = 0;
+                    return;
                 case 3:
                     Console.WriteLine("Qual matéira você deseja remover?");
 
@@ -90,6 +89,8 @@ public static class MetodosMenu{
 
     public static void showMenuMateria(Materia mat){
         Console.WriteLine($"Dados da matéria {mat.Nome}");
+        Console.WriteLine("Avaliações: ");
+        showAvaliacoes(mat);
     }
     public static void removerMateria(Pessoa user,Materia mat){
         if(user.removerMateria(mat)==0){
@@ -101,8 +102,87 @@ public static class MetodosMenu{
         
     }
 
-     public static void adicionarMateria(Pessoa user,Materia mat){
+     public static void adicionarMateria(Pessoa user){
+        string nome;
+        int qtAvaliacoes;
+        nome = Console.ReadLine();
+        int.TryParse(Console.ReadLine(),out qtAvaliacoes);
+
+        Materia mat = new Materia(nome,qtAvaliacoes);
         user.adicionarMateria(mat);
         Console.WriteLine("Materia Adicionada");
+    }
+    public static void showMenuMateria(Materia mat,out int opMenu,out int opAvaliacao){
+        Console.WriteLine($"Avaliações da matéria {mat.Nome}: ");
+        showAvaliacoes(mat);
+
+        do{
+            Console.WriteLine("O que deseja fazer?");
+            Console.WriteLine("[1] - Alterar os dados de alguma Avaliação");
+            Console.WriteLine("[2] - Adicionar uma Avaliação");
+            Console.WriteLine("[3] - Remover uma Avaliação"); 
+            Console.WriteLine("Digite sua opção (1,2,3): ");
+            int.TryParse(Console.ReadLine(),out opMenu);
+                
+            if(opMenu!= 1 && opMenu!= 2 && opMenu != 3){
+                Console.WriteLine("Opção inválida, tente novamente");
+            }
+        }while(opMenu!= 1 && opMenu!= 2 && opMenu != 3);
+
+       
+
+        switch(opMenu){
+            case 1:
+                Console.WriteLine("De qual Avaliação você deseja alterar os dados?: ");
+            break;
+            case 2:
+                opAvaliacao = 0;
+                return;
+            case 3:
+                Console.WriteLine("Qual Avaliação você deseja remover?: ");
+            break;
+        }
+        do{
+            int.TryParse(Console.ReadLine(),out opAvaliacao);
+            if(opAvaliacao<1||opAvaliacao>mat.qtAvaliacoes){
+                Console.WriteLine("Você digitou um índice errado, tente novamente");
+            }
+        }while(opAvaliacao<1||opAvaliacao>mat.qtAvaliacoes);
+    }
+    private static void showAvaliacoes(Materia mat){
+        int i = 0;
+        int tipoDesempenho;
+        mat.calcNotasRecomendadas(out tipoDesempenho);
+        string resposta = "Houve um erro na função, não está retornando os valores esperados";
+        
+        switch(tipoDesempenho){
+            case 0:
+                resposta = "Houve um erro em calcular suas notas recomendadas";
+            break;
+            case 1:
+                resposta = $"Você está indo muito bem, para continuar nesse nível de rendimento vc deveria tirar: {mat.Avaliacoes[i].NotaRecomendada}";
+            break;
+            case 2:
+                resposta = "Você infelizmente não tem chance de passar";
+            break;
+            case 3:
+                resposta = $"Para você ficar na média você deve tirar: {mat.Avaliacoes[i].NotaRecomendada}";
+            break;
+        }
+
+
+        for(i=0;i<mat.qtAvaliacoes;i++){
+            Console.Write($"[{i+1}] - : ");
+            mat.Avaliacoes[i].diaDoPrazo.mostrarData();
+            Console.WriteLine("Tipo: "+ mat.Avaliacoes[i].tipoDoPrazo);
+            Console.WriteLine("Nota total: "+ mat.Avaliacoes[i].NotaTotal);
+            if(mat.Avaliacoes[i].NotaObtida == -1){
+                Console.WriteLine(resposta);
+            }
+            else{
+                Console.WriteLine("Nota obtida: "+ mat.Avaliacoes[i].NotaObtida);
+            }
+        }
+        Console.WriteLine("\n");
     }
 }

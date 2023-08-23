@@ -88,7 +88,7 @@ public class Materia{
         return 0;
     }
 
-    public int calcNotasRecomendadas(ref int tipoDesempenho){
+    public int calcNotasRecomendadas(out int tipoDesempenho){
         int i;
         float porcentagem=0,soma=0,somaProporcional=0,somaNotasTotais=0;
 
@@ -102,6 +102,7 @@ public class Materia{
             }
         }
         if(soma > 100){
+            tipoDesempenho = 0;
             return 1;
         }
         else if(soma>=60){
@@ -114,7 +115,7 @@ public class Materia{
             tipoDesempenho = 2;
             return 1;
         }
-        else if(soma<60){
+        else{ //soma<60
             //ver quanto falta de nota e dividir proporcionalmente com relação aos valores respectivos de cada prova
             soma = 100 -soma;
             porcentagem = (float) soma/somaProporcional;

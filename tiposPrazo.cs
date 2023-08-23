@@ -19,9 +19,9 @@ public class Data{
     }
 
     public Data(){
-        this.dia = 1;
-        this.mes = 1;
-        this.ano= 1;
+        dia = 1;
+        mes = 1;
+        ano= 1;
     }
 
     ~Data(){
@@ -31,40 +31,40 @@ public class Data{
     public void mostrarData(){
         switch(mes){
             case 1:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Janeiro",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Janeiro",ano);
             break;
             case 2:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Fevereiro",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Fevereiro",ano);
             break;
             case 3:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Março",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Março",ano);
             break;
             case 4:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Abril",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Abril",ano);
             break;
             case 5:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Maio",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Maio",ano);
             break;
             case 6:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Junho",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Junho",ano);
             break;
             case 7:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Julho",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Julho",ano);
             break;
             case 8:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Agosto",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Agosto",ano);
             break;
             case 9:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Setembro",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Setembro",ano);
             break;
             case 10:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Outubro",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Outubro",ano);
             break;
             case 11:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Novembro",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Novembro",ano);
             break;
             case 12:
-                Console.WriteLine("Olá, estamos no dia {0} de {1} de {2}",dia,"Dezembro",ano);
+                Console.WriteLine("Dia {0} de {1} de {2}",dia,"Dezembro",ano);
             break;
         }
         
