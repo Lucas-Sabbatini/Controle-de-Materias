@@ -12,19 +12,10 @@ public class Prazo{
         this.notaObtida = notaObtida;
     }
 
-    public int AdicionarNota(float nota){
-        if(nota>=notaTotal){
-            Console.WriteLine("A nota obtida é maior doque a nota total");
-            return -1;
-        }
-
-        notaObtida = nota;
-        return 0;
-    }
 
     public float NotaObtida{
         get=>notaObtida;
-        set{
+        set {
             if(value<=notaTotal){
                 notaObtida = value;
             }
@@ -33,11 +24,7 @@ public class Prazo{
 
     public float NotaRecomendada{
         get=>notaRecomendada;
-        set{
-            if(value<=notaRecomendada){
-                notaRecomendada = value;
-            }
-        }
+        set => notaRecomendada = value;
     }
 
     public float NotaTotal{

@@ -153,22 +153,6 @@ public static class MetodosMenu{
         int i = 0;
         int tipoDesempenho;
         mat.calcNotasRecomendadas(out tipoDesempenho);
-        string resposta = "Houve um erro na função, não está retornando os valores esperados";
-        
-        switch(tipoDesempenho){
-            case 0:
-                resposta = "Houve um erro em calcular suas notas recomendadas";
-            break;
-            case 1:
-                resposta = $"Você está indo muito bem, para continuar nesse nível de rendimento vc deveria tirar: {mat.Avaliacoes[i].NotaRecomendada}";
-            break;
-            case 2:
-                resposta = "Você infelizmente não tem chance de passar";
-            break;
-            case 3:
-                resposta = $"Para você ficar na média você deve tirar: {mat.Avaliacoes[i].NotaRecomendada}";
-            break;
-        }
 
 
         for(i=0;i<mat.qtAvaliacoes;i++){
@@ -177,7 +161,20 @@ public static class MetodosMenu{
             Console.WriteLine("Tipo: "+ mat.Avaliacoes[i].tipoDoPrazo);
             Console.WriteLine("Nota total: "+ mat.Avaliacoes[i].NotaTotal);
             if(mat.Avaliacoes[i].NotaObtida == -1){
-                Console.WriteLine(resposta);
+                switch(tipoDesempenho){
+                    case 0:
+                        Console.WriteLine("Houve um erro em calcular suas notas recomendadas");
+                    break;
+                    case 1:
+                        Console.WriteLine($"Você está indo muito bem, para continuar nesse nível de rendimento vc deveria tirar: {mat.Avaliacoes[i].NotaRecomendada}");
+                    break;
+                    case 2:
+                        Console.WriteLine("Você infelizmente não tem chance de passar");
+                    break;
+                    case 3:
+                        Console.WriteLine($"Para você ficar na média você deve tirar: {mat.Avaliacoes[i].NotaRecomendada}");
+                    break;
+                }
             }
             else{
                 Console.WriteLine("Nota obtida: "+ mat.Avaliacoes[i].NotaObtida);

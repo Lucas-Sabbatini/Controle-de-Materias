@@ -8,10 +8,12 @@ public class Materia{
         this.qtAvaliacoes = qtAvaliacoes;
         int i;
         int dia,mes,ano;
-        float notaTotal;
+        float notaTotal,notaObtida;
         string tipoDoPrazo;
+        char op;
 
         for(i=0;i<qtAvaliacoes;i++){
+            notaObtida = -1;
             Console.WriteLine("Digite o dia dd/mm/aaaa");
             int.TryParse(Console.ReadLine(),out dia);
             int.TryParse(Console.ReadLine(),out mes);
@@ -22,8 +24,21 @@ public class Materia{
             tipoDoPrazo = Console.ReadLine();
             Console.WriteLine("Qual é o valor total da avaliação?");
             float.TryParse(Console.ReadLine(),out notaTotal);
+            
+            do{
+                Console.WriteLine("Você já fez essa prova? (s/n)");
+                char.TryParse(Console.ReadLine(),out op);
+                if(op=='s'){
+                    Console.WriteLine("Digite quanto você tirou na prova");
+                    float.TryParse(Console.ReadLine(),out notaObtida);
+                }
+                else if(op!='n'){
+                    Console.WriteLine("Opção inválida, digite novamente");
+                }
+            }while(op!='s'&&op!='n');
+            
 
-            Prazo prazo = new Prazo(diaDoPrazo,tipoDoPrazo,notaTotal,-1);
+            Prazo prazo = new Prazo(diaDoPrazo,tipoDoPrazo,notaTotal,notaObtida);
 
             Avaliacoes.Add(prazo);
         }
@@ -90,7 +105,7 @@ public class Materia{
 
     public int calcNotasRecomendadas(out int tipoDesempenho){
         int i;
-        float porcentagem=0,soma=0,somaProporcional=0,somaNotasTotais=0;
+        float porcentagem,soma=0,somaProporcional=0,somaNotasTotais=0;
 
         for(i=0;i<qtAvaliacoes;i++){
             if(Avaliacoes[i].NotaObtida!=-1){   //ver quanto falta de nota e dividir proporcionalmente com relação aos valores respectivos de cada prova
@@ -117,8 +132,8 @@ public class Materia{
         }
         else{ //soma<60
             //ver quanto falta de nota e dividir proporcionalmente com relação aos valores respectivos de cada prova
-            soma = 100 -soma;
-            porcentagem = (float) soma/somaProporcional;
+            soma = 60 -soma;
+            porcentagem = (float) soma/somaProporcional;  //quantidade de nota q falta/ soma das notas totais das provas que ainda faltam
             tipoDesempenho = 3;
            
         }

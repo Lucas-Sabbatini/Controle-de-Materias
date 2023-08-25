@@ -6,6 +6,8 @@ internal class Program
     {
         int opMenu,opMateria,opAvaliacao,opMenuMateria=0;
         Pessoa user;
+
+        
         user = MetodosMenu.logIn();
 
         MetodosMenu.showMenuInicial(user,out opMenu,out opMateria);
@@ -30,10 +32,10 @@ internal class Program
                 Console.WriteLine("voltou");
             break;
             case 2:
-            Console.WriteLine("voltou");
+                Console.WriteLine("voltou");
             break;
             case 3:
-            Console.WriteLine("voltou");
+                Console.WriteLine("voltou");
             break;
             default:
                 Console.WriteLine("Alguém adicionou ou removeu alguma matéira");
