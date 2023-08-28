@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 public static class MetodosMenu{
@@ -149,6 +151,20 @@ public static class MetodosMenu{
             }
         }while(opAvaliacao<1||opAvaliacao>mat.qtAvaliacoes);
     }
+
+    public static void removerAvaliacao(Materia mat,Prazo avaliacao){
+        if(mat.removerPrazo(avaliacao)==0){
+            Console.WriteLine("Materia Removida");
+        }
+        else{
+            Console.WriteLine("Houve um problema em remover a avaliacao");
+        }
+    }
+
+    public static void adicionarAvaliacao(Materia mat){
+        mat.AdicionarPrazo();
+        Console.WriteLine("Avaliação adicionada!");
+    }
     private static void showAvaliacoes(Materia mat){
         int i = 0;
         int tipoDesempenho;
@@ -157,8 +173,8 @@ public static class MetodosMenu{
 
         for(i=0;i<mat.qtAvaliacoes;i++){
             Console.Write($"[{i+1}] - : ");
-            mat.Avaliacoes[i].diaDoPrazo.mostrarData();
-            Console.WriteLine("Tipo: "+ mat.Avaliacoes[i].tipoDoPrazo);
+            mat.Avaliacoes[i].DiaDoPrazo.mostrarData();
+            Console.WriteLine("Tipo: "+ mat.Avaliacoes[i].TipoDoPrazo);
             Console.WriteLine("Nota total: "+ mat.Avaliacoes[i].NotaTotal);
             if(mat.Avaliacoes[i].NotaObtida == -1){
                 switch(tipoDesempenho){
@@ -181,5 +197,76 @@ public static class MetodosMenu{
             }
         }
         Console.WriteLine("\n");
+    }
+
+    public static void alterarAvaliacao(Materia mat,Prazo avaliacao){
+        int op,dia,mes,ano,aceito,i;
+        string tipo;
+        float nota;
+        float[] notas = new float[mat.qtAvaliacoes];
+
+        Console.WriteLine("O que você deseja mudar?");
+        do{
+            Console.WriteLine("[1] Alterar a data da avaliacao");
+            Console.WriteLine("[2] Alterar o tipo da avaliacao");
+            Console.WriteLine("[3] Alterar a nota Total da avaliacao");
+            Console.WriteLine("[4] Alterar a nota Obtida da avaliacao");
+            int.TryParse(Console.ReadLine(),out op);
+            if(op>4&&op<1){
+                Console.WriteLine("Opção inválida, digite novamente");
+            }
+        }while(op>4&&op<1);
+
+        switch(op){
+            case 1:
+                do{
+                    Console.WriteLine("Digite a data: (dd,mm,aaaa)");
+                    int.TryParse(Console.ReadLine(),out dia);
+                    int.TryParse(Console.ReadLine(),out mes);
+                    int.TryParse(Console.ReadLine(),out ano);
+                    aceito = avaliacao.alterarDiaDoPrazo(dia,mes,ano);
+                    if(aceito == 1){
+                        Console.WriteLine("Você digitou uma data que não é válida");
+                    }
+                }while(aceito == 1);
+            break;
+            case 2:
+                do{
+                    Console.WriteLine("Digite o novo tipo do prazo: ");
+                    tipo = Console.ReadLine();
+                    aceito = avaliacao.alterarTipoDoPrazo(tipo);
+                    if(aceito == 1){
+                    Console.WriteLine("Você digitou uma tipo que não é válida");
+                    }
+                }while(aceito == 1);
+            break;
+            case 3:
+                do{
+                    for(i=0;i<mat.qtAvaliacoes;i++){
+                        Console.Write("Digite a nota da avaliacao do dia ");
+                        mat.Avaliacoes[i].DiaDoPrazo.mostrarData();
+                        float.TryParse(Console.ReadLine(),out notas[i]);
+                    }
+                    aceito = mat.alterarNotaTotalPrazo(notas);
+                    if(aceito == 1){
+                        Console.WriteLine("A soma das notas é diferente de 100, digite as notas novamente: ");
+                    }
+                    else if(aceito ==2){
+                        Console.WriteLine("Você digitou uma nova inválida");
+                    }
+                }while(aceito ==1);
+                
+            break;
+            case 5:
+                do{
+                    Console.WriteLine("Digite a data: (dd,mm,aaaa)");
+                    float.TryParse(Console.ReadLine(),out nota);
+                    aceito = avaliacao.alterarNotaObtida(nota);
+                    if(aceito == 1){
+                        Console.WriteLine("Você digitou uma nota que não é válida");
+                    }
+                    }while(aceito == 1);
+            break;
+        }
     }
 }

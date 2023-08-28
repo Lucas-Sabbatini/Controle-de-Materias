@@ -1,6 +1,6 @@
 public class Prazo{
-    public Data diaDoPrazo;
-    public string tipoDoPrazo;
+    private Data diaDoPrazo;
+    private string tipoDoPrazo;
     private float notaTotal;
     private float notaObtida;
     private float notaRecomendada;
@@ -15,13 +15,15 @@ public class Prazo{
 
     public float NotaObtida{
         get=>notaObtida;
-        set {
-            if(value<=notaTotal){
-                notaObtida = value;
-            }
-        }
     }
 
+    public int alterarNotaObtida(float notaObtida){
+        if(notaObtida<=notaTotal&&notaObtida>=0){
+            this.notaObtida = notaObtida;
+            return 0;
+        }
+        return 1;
+    }
     public float NotaRecomendada{
         get=>notaRecomendada;
         set => notaRecomendada = value;
@@ -30,5 +32,30 @@ public class Prazo{
     public float NotaTotal{
         get => notaTotal;
         set => notaTotal = value;
+    }
+
+    public Data DiaDoPrazo{
+        get => diaDoPrazo;
+    }
+
+    public string TipoDoPrazo{
+        get => tipoDoPrazo;
+    }
+
+    public int alterarDiaDoPrazo(int dia,int mes,int ano){
+        Data diaDoPrazo = new Data(dia,mes,ano);
+        if(diaDoPrazo.dataValida()){
+            this.diaDoPrazo = diaDoPrazo;
+            return 0;
+        }
+        return 1;
+    }
+
+    public int alterarTipoDoPrazo(string tipoDoPrazo){
+        if(tipoDoPrazo==null){
+            return 1;
+        }
+        this.tipoDoPrazo = tipoDoPrazo;
+        return 0;
     }
 }

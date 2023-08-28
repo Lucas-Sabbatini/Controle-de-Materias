@@ -4,81 +4,79 @@ public class Materia{
     public List<Prazo> Avaliacoes = new();
 
     public Materia(string Nome,int qtAvaliacoes){
+        int i;
         this.Nome = Nome;
         this.qtAvaliacoes = qtAvaliacoes;
-        int i;
-        int dia,mes,ano;
-        float notaTotal,notaObtida;
-        string tipoDoPrazo;
-        char op;
-
         for(i=0;i<qtAvaliacoes;i++){
-            notaObtida = -1;
-            Console.WriteLine("Digite o dia dd/mm/aaaa");
-            int.TryParse(Console.ReadLine(),out dia);
-            int.TryParse(Console.ReadLine(),out mes);
-            int.TryParse(Console.ReadLine(),out ano);
-            Data diaDoPrazo = new Data(dia,mes,ano);
-
-            Console.WriteLine("Qual é o tipo da avaliação? (prova/trabalho/seminário): ");
-            tipoDoPrazo = Console.ReadLine();
-            Console.WriteLine("Qual é o valor total da avaliação?");
-            float.TryParse(Console.ReadLine(),out notaTotal);
-            
-            do{
-                Console.WriteLine("Você já fez essa prova? (s/n)");
-                char.TryParse(Console.ReadLine(),out op);
-                if(op=='s'){
-                    Console.WriteLine("Digite quanto você tirou na prova");
-                    float.TryParse(Console.ReadLine(),out notaObtida);
-                }
-                else if(op!='n'){
-                    Console.WriteLine("Opção inválida, digite novamente");
-                }
-            }while(op!='s'&&op!='n');
-            
-
-            Prazo prazo = new Prazo(diaDoPrazo,tipoDoPrazo,notaTotal,notaObtida);
-
-            Avaliacoes.Add(prazo);
+            AdicionarPrazo();
         }
-
-        Avaliacoes.Sort(ordenaAvaliações);
     }
 
     private static int ordenaAvaliações(Prazo x,Prazo y){
-        if(x.diaDoPrazo.ano == y.diaDoPrazo.ano){
-            if(x.diaDoPrazo.mes == y.diaDoPrazo.mes){
-                if(x.diaDoPrazo.dia == y.diaDoPrazo.dia){
+        if(x.DiaDoPrazo.ano == y.DiaDoPrazo.ano){
+            if(x.DiaDoPrazo.mes == y.DiaDoPrazo.mes){
+                if(x.DiaDoPrazo.dia == y.DiaDoPrazo.dia){
                     return 0;
                 }
-                else if(x.diaDoPrazo.dia > y.diaDoPrazo.dia){
+                else if(x.DiaDoPrazo.dia > y.DiaDoPrazo.dia){
                     return 1;
                 }
-                else if(x.diaDoPrazo.dia < y.diaDoPrazo.dia){
+                else if(x.DiaDoPrazo.dia < y.DiaDoPrazo.dia){
                     return -1;
                 }
             }
-            else if(x.diaDoPrazo.mes > y.diaDoPrazo.mes){
+            else if(x.DiaDoPrazo.mes > y.DiaDoPrazo.mes){
                 return 1;
             }
-            else if(x.diaDoPrazo.mes < y.diaDoPrazo.mes){
+            else if(x.DiaDoPrazo.mes < y.DiaDoPrazo.mes){
                 return -1;
             }
 
         }
-        else if(x.diaDoPrazo.ano > y.diaDoPrazo.ano){
+        else if(x.DiaDoPrazo.ano > y.DiaDoPrazo.ano){
             return 1;
         }
-        else if(x.diaDoPrazo.ano < y.diaDoPrazo.ano){
+        else if(x.DiaDoPrazo.ano < y.DiaDoPrazo.ano){
             return -1;
         }
         return 0;
     }
 
-    public int AdicionarPrazo(Prazo prazo){
+    public int AdicionarPrazo(){
+        int dia,mes,ano;
+        float notaTotal,notaObtida;
+        string tipoDoPrazo;
+        char op;
+
+        notaObtida = -1;
+        Console.WriteLine("Digite o dia dd/mm/aaaa");
+        int.TryParse(Console.ReadLine(),out dia);
+        int.TryParse(Console.ReadLine(),out mes);
+        int.TryParse(Console.ReadLine(),out ano);
+        Data diaDoPrazo = new Data(dia,mes,ano);
+
+        Console.WriteLine("Qual é o tipo da avaliação? (prova/trabalho/seminário): ");
+        tipoDoPrazo = Console.ReadLine();
+        Console.WriteLine("Qual é o valor total da avaliação?");
+        float.TryParse(Console.ReadLine(),out notaTotal);
+            
+        do{
+            Console.WriteLine("Você já fez essa prova? (s/n)");
+            char.TryParse(Console.ReadLine(),out op);
+            if(op=='s'){
+                Console.WriteLine("Digite quanto você tirou na prova");
+                float.TryParse(Console.ReadLine(),out notaObtida);
+            }
+            else if(op!='n'){
+                Console.WriteLine("Opção inválida, digite novamente");
+            }
+        }while(op!='s'&&op!='n');
+            
+
+        Prazo prazo = new Prazo(diaDoPrazo,tipoDoPrazo,notaTotal,notaObtida);
+
         Avaliacoes.Add(prazo);
-        qtAvaliacoes++;
+        Avaliacoes.Sort(ordenaAvaliações);
         return 0;
     }
     public int removerPrazo(Prazo prazo){
@@ -88,8 +86,10 @@ public class Materia{
         } 
         return 1;
     }
-    public int alterarNotaTotalPrazo(int[] notas){
-        int i,soma=0;
+    public int alterarNotaTotalPrazo(float[] notas){
+        int i;
+        float soma=0;
+        int retorno;
 
         for(i=0;i<qtAvaliacoes;i++){
             soma += notas[i];
@@ -99,6 +99,10 @@ public class Materia{
 
         for(i=0;i<qtAvaliacoes;i++){
             Avaliacoes[i].NotaTotal = notas[i];
+            if(Avaliacoes[i].NotaObtida>Avaliacoes[i].NotaTotal){
+                retorno = Avaliacoes[i].alterarNotaObtida(Avaliacoes[i].NotaTotal);
+                if(retorno == 1) return 2;
+            }
         }
         return 0;
     }

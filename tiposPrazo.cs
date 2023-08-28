@@ -6,7 +6,7 @@ public class Data{
     public int ano;
 
     public Data(int dia, int mes,int ano){
-        if(dataValida(dia,mes,ano)){
+        if(dataValida()){
             this.dia = dia;
             this.mes = mes;
             this.ano = ano;
@@ -70,7 +70,7 @@ public class Data{
         
     }
 
-    private bool dataValida(int dia,int mes,int ano){              //Uma função static é definida em um objeto mas não altera as propriedades dele
+    public bool dataValida(){              //Uma função static é definida em um objeto mas não altera as propriedades dele
         if(mes==1||mes==3||mes==5||mes==7||mes==8||mes==10){
             if(dia>31||dia<1){
                 return false;
